@@ -11,7 +11,7 @@ const Trending = () => {
 
   const fetchTrending = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/trending/all/week?api_key=${apiKey}&page=${page}`
+      `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}&page=${page}`
     );
     setContent(data.results);
   };
@@ -19,7 +19,6 @@ const Trending = () => {
   useEffect(() => {
     window.scroll(0, 0);
     fetchTrending();
-    // eslint-disable-next-line
   }, [page]);
 
   return (

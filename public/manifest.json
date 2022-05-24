@@ -1,6 +1,6 @@
 {
-  "name": "Entertainment Hub",
-  "short_name": "Entertainment Hub",
+  "name": "Entertainment Recommender",
+  "short_name": "Movie Recommender",
   "theme_color": "#000000",
   "background_color": "#000000",
   "display": "standalone",

@@ -38,7 +38,6 @@ const Genres = ({
     return () => {
       setGenres({}); // unmounting
     };
-    // eslint-disable-next-line
   }, []);
 
   return (

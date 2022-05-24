@@ -1,5 +1,5 @@
 {
-  "name": "movie-series-app",
+  "name": "movie-recommender",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

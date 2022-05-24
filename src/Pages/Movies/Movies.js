@@ -21,7 +21,8 @@ const apiKey = '0ce524ee34cb6a3d23c4c6c1200883a0'
     );
     // console.log(data);
     setContent(data.results);
-    setNumOfPages(data.total_pages);
+    // setNumOfPages(data.total_pages);
+    setNumOfPages(15);
   };
 
   useEffect(() => {
