@@ -19,10 +19,10 @@ const apiKey = '0ce524ee34cb6a3d23c4c6c1200883a0'
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genreforURL}`
     );
-    // console.log(data);
     setContent(data.results);
     // setNumOfPages(data.total_pages);
-    setNumOfPages(15);
+    (data.total_pages>15)?setNumOfPages(15):setNumOfPages(data.total_pages);
+    // console.log(data);
   };
 
   useEffect(() => {

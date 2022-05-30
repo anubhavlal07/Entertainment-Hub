@@ -20,7 +20,7 @@ const Series = () => {
     );
     setContent(data.results);
     // setNumOfPages(data.total_pages);
-    setNumOfPages(15);
+    (data.total_pages>15)?setNumOfPages(15):setNumOfPages(data.total_pages);
     // console.log(data);
   };
 
