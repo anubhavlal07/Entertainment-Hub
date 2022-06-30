@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     width: "90%",
     height: "80%",
-    backgroundColor: "#39445a",
-    border: "1px solid #282c34",
+    backgroundColor: "#000000",
+    border: "1.5px solid #f50057",
     borderRadius: 10,
     color: "white",
     boxShadow: theme.shadows[5],
