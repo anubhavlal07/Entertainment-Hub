@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   paper: {
-    width: "90%",
-    height: "80%",
-    backgroundColor: "#000000",
-    border: "1.5px solid #f50057",
+    width: "85%",
+    height: "85%",
+    backgroundColor: "#252424",
+    border: "3.5px solid #0590c1",
     borderRadius: 10,
     color: "white",
     boxShadow: theme.shadows[5],
@@ -53,7 +53,7 @@ export default function TransitionsModal({ children, media_type, id }) {
     );
 
     setContent(data);
-    // console.log(data);
+    console.log(data);
   };
 
   const fetchVideo = async () => {
@@ -132,7 +132,7 @@ export default function TransitionsModal({ children, media_type, id }) {
                   <span className="ContentModal__description">
                     {content.overview}
                   </span>
-                  <br/>
+                  <br />
                   <div>
                     <Carousel id={id} media_type={media_type} />
                   </div>
@@ -144,7 +144,7 @@ export default function TransitionsModal({ children, media_type, id }) {
                     target="__blank"
                     href={`https://www.youtube.com/watch?v=${video}`}
                   >
-                    Watch the Trailer
+                    Trailer
                   </Button>
                 </div>
               </div>

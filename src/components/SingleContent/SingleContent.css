@@ -1,17 +1,17 @@
 .media {
   display: flex;
   flex-direction: column;
-  width: 280px;
+  width: 23%;
   padding: 5px;
   margin: 5px 0;
-  background-color: #282c34;
+  background-color: #252424;
   border-radius: 10px;
   position: relative;
   font-family: Georgia, "Times New Roman", serif, "Courier New", Courier;
 }
 
 .media:hover {
-  background-color: white;
+  background-color: #0590c1;
   color: black;
   transform: scale(1.02);
   transition: 0.5s ease-in-out;
@@ -26,7 +26,9 @@
 }
 
 .poster {
-  border-radius: 5px;
+  border-radius: 2.5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .title {
