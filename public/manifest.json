@@ -1,6 +1,6 @@
 {
-  "name": "Entertainment Recommender",
-  "short_name": "Movie Recommender",
+  "name": "Movie Recommendation Engine",
+  "short_name": "Movie Bliss",
   "theme_color": "#000000",
   "background_color": "#000000",
   "display": "standalone",
