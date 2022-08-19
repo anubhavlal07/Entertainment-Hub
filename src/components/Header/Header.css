@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&display=swap");
 
 .header {
   width: 100%;
@@ -8,10 +8,11 @@
   justify-content: center;
   text-transform: uppercase;
   background-color: #000000;
-  font-family: 'Cinzel Decorative', 'Segoe UI', Tahoma, Verdana,'Times New Roman';
+  font-family: "Cinzel Decorative", "Segoe UI", Tahoma, Verdana,
+    "Times New Roman";
   font-size: 5vw;
   padding-bottom: 15px;
-  color: rgba(168, 168, 168, 0.75);
+  color: rgb(255, 255, 255);
   z-index: 100;
 }
 
