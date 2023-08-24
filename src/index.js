@@ -1,13 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
+import "./index.css";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
 serviceWorkerRegistration.register();
 // Diable input from user
+console.log(
+  "Congratulations, you've achieved ultimate nerd status. Impressive 😂👌👍"
+);
 (document.onkeydown = function (event) {
   if (event.keyCode == 123) {
     return false;
