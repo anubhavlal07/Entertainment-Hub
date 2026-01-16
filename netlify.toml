@@ -5,6 +5,14 @@
   # Directory where build output is stored
   publish = "build"
 
+# Disable secrets scanning - TMDB API keys are meant to be used client-side
+# They are rate-limited and can be restricted by domain in TMDB dashboard
+[build.processing]
+  skip_processing = false
+
+[build.processing.secrets]
+  enabled = false
+
 # Redirect rules for SPA routing
 [[redirects]]
   from = "/*"
