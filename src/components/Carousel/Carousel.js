@@ -4,8 +4,7 @@ import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { img_300, noPicture } from "../../config/config";
 import "./Carousel.css";
-
-const apiKey = '0ce524ee34cb6a3d23c4c6c1200883a0';
+import { TMDB_API_KEY } from "../../config/api";
 
 const handleDragStart = (e) => e.preventDefault();
 
@@ -38,14 +37,14 @@ const Gallery = ({ id, media_type }) => {
 
   const fetchCredits = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${media_type}/${id}/credits?api_key=${apiKey}&language=en-US`
+      `https://api.themoviedb.org/3/${media_type}/${id}/credits?api_key=${TMDB_API_KEY}&language=en-US`
     );
     setCredits(data.cast);
   };
 
   useEffect(() => {
     fetchCredits();
-  }, []);
+  }, [id, media_type]);
 
   return (
     <AliceCarousel

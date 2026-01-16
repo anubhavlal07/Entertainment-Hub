@@ -1,9 +1,9 @@
-import { Button } from "@material-ui/core";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
-import Modal from "@material-ui/core/Modal";
-import { makeStyles } from "@material-ui/core/styles";
-import YouTubeIcon from "@material-ui/icons/YouTube";
+import { Button } from "@mui/material";
+import Backdrop from "@mui/material/Backdrop";
+import Fade from "@mui/material/Fade";
+import Modal from "@mui/material/Modal";
+import { styled } from "@mui/material/styles";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
@@ -13,28 +13,38 @@ import {
 } from "../../config/config";
 import Carousel from "../Carousel/Carousel";
 import "./ContentModal.css";
-const apiKey = "0ce524ee34cb6a3d23c4c6c1200883a0";
+import { TMDB_API_KEY } from "../../config/api";
 
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  paper: {
-    width: "85%",
-    height: "85%",
-    backgroundColor: "#252424",
-    border: "3.5px solid #0590c1",
-    borderRadius: 10,
-    color: "white",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(1, 1, 3),
-  },
+
+const StyledModal = styled(Modal)({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+});
+
+const StyledBackdrop = styled(Backdrop)({
+  backdropFilter: "blur(10px)",
+  WebkitBackdropFilter: "blur(10px)",
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
+});
+
+const ModalPaper = styled("div")(({ theme }) => ({
+  width: "85%",
+  height: "85%",
+  /* Glassmorphism effect */
+  background: "rgba(37, 36, 36, 0.85)",
+  backdropFilter: "blur(30px) saturate(180%)",
+  WebkitBackdropFilter: "blur(30px) saturate(180%)",
+  border: "1px solid rgba(5, 144, 193, 0.5)",
+  borderRadius: 15,
+  color: "white",
+  boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 40px rgba(5, 144, 193, 0.3)",
+  padding: theme.spacing(1, 1, 3),
+  position: "absolute",
 }));
 
+
 export default function TransitionsModal({ children, media_type, id }) {
-  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState();
   const [video, setVideo] = useState();
@@ -49,7 +59,7 @@ export default function TransitionsModal({ children, media_type, id }) {
 
   const fetchData = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${media_type}/${id}?api_key=${apiKey}&language=en-US`
+      `https://api.themoviedb.org/3/${media_type}/${id}?api_key=${TMDB_API_KEY}&language=en-US`
     );
 
     setContent(data);
@@ -58,7 +68,7 @@ export default function TransitionsModal({ children, media_type, id }) {
 
   const fetchVideo = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${media_type}/${id}/videos?api_key=${apiKey}&language=en-US`
+      `https://api.themoviedb.org/3/${media_type}/${id}/videos?api_key=${TMDB_API_KEY}&language=en-US`
     );
 
     setVideo(data.results[0]?.key);
@@ -79,79 +89,82 @@ export default function TransitionsModal({ children, media_type, id }) {
       >
         {children}
       </div>
-      <Modal
+      <StyledModal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        className={classes.modal}
         open={open}
         onClose={handleClose}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
+        slots={{ backdrop: StyledBackdrop }}
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
         }}
       >
         <Fade in={open}>
-          {content && (
-            <div className={classes.paper}>
-              <div className="ContentModal">
-                <img
-                  src={
-                    content.poster_path
-                      ? `${img_500}/${content.poster_path}`
-                      : unavailable
-                  }
-                  alt={content.name || content.title}
-                  className="ContentModal__portrait"
-                />
-                <img
-                  src={
-                    content.backdrop_path
-                      ? `${img_500}/${content.backdrop_path}`
-                      : unavailableLandscape
-                  }
-                  alt={content.name || content.title}
-                  className="ContentModal__landscape"
-                />
-                <br />
-                <br />
-                <div className="ContentModal__about">
-                  <span className="ContentModal__title">
-                    {content.name || content.title} (
-                    {(
-                      content.first_air_date ||
-                      content.release_date ||
-                      "-----"
-                    ).substring(0, 4)}
-                    )
-                  </span>
-                  {content.tagline && (
-                    <i className="tagline">{content.tagline}</i>
-                  )}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', outline: 'none', width: '100%', height: '100%' }}>
+            {content && (
+              <ModalPaper>
+                <div className="ContentModal">
+                  <img
+                    src={
+                      content.poster_path
+                        ? `${img_500}/${content.poster_path}`
+                        : unavailable
+                    }
+                    alt={content.name || content.title}
+                    className="ContentModal__portrait"
+                  />
+                  <img
+                    src={
+                      content.backdrop_path
+                        ? `${img_500}/${content.backdrop_path}`
+                        : unavailableLandscape
+                    }
+                    alt={content.name || content.title}
+                    className="ContentModal__landscape"
+                  />
                   <br />
-                  <span className="ContentModal__description">
-                    {content.overview}
-                  </span>
                   <br />
-                  <div>
-                    <Carousel id={id} media_type={media_type} />
-                  </div>
+                  <div className="ContentModal__about">
+                    <span className="ContentModal__title">
+                      {content.name || content.title} (
+                      {(
+                        content.first_air_date ||
+                        content.release_date ||
+                        "-----"
+                      ).substring(0, 4)}
+                      )
+                    </span>
+                    {content.tagline && (
+                      <i className="tagline">{content.tagline}</i>
+                    )}
+                    <br />
+                    <span className="ContentModal__description">
+                      {content.overview}
+                    </span>
+                    <br />
+                    <div>
+                      <Carousel id={id} media_type={media_type} />
+                    </div>
 
-                  <Button
-                    variant="contained"
-                    startIcon={<YouTubeIcon />}
-                    color="secondary"
-                    target="__blank"
-                    href={`https://www.youtube.com/watch?v=${video}`}
-                  >
-                    Trailer
-                  </Button>
+                    <Button
+                      variant="contained"
+                      startIcon={<YouTubeIcon />}
+                      color="secondary"
+                      target="__blank"
+                      href={`https://www.youtube.com/watch?v=${video}`}
+                    >
+                      Trailer
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </div>
-          )}
+              </ModalPaper>
+            )}
+          </div>
         </Fade>
-      </Modal>
+      </StyledModal>
     </>
   );
 }

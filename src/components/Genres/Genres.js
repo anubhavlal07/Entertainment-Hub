@@ -1,7 +1,7 @@
-import { Chip } from "@material-ui/core";
+import { Chip } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
-const apiKey = '0ce524ee34cb6a3d23c4c6c1200883a0';
+import { TMDB_API_KEY } from "../../config/api";
 
 const Genres = ({
   selectedGenres,
@@ -27,7 +27,7 @@ const Genres = ({
 
   const fetchGenres = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/genre/${type}/list?api_key=${apiKey}&language=en-US`
+      `https://api.themoviedb.org/3/genre/${type}/list?api_key=${TMDB_API_KEY}&language=en-US`
     );
     setGenres(data.genres);
   };
@@ -55,7 +55,11 @@ const Genres = ({
       ))}
       {genres.map((genre) => (
         <Chip
-          style={{ margin: 2 }}
+          style={{
+            margin: 2,
+            backgroundColor: "#333333",
+            color: "white"
+          }}
           label={genre.name}
           key={genre.id}
           clickable

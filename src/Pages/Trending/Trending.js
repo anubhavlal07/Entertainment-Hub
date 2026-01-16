@@ -3,15 +3,14 @@ import "./Trending.css";
 import { useEffect, useState } from "react";
 import SingleContent from "../../components/SingleContent/SingleContent";
 import CustomPagination from "../../components/Pagination/CustomPagination";
-
-const apiKey = '0ce524ee34cb6a3d23c4c6c1200883a0';
+import { TMDB_API_KEY } from "../../config/api";
 const Trending = () => {
   const [page, setPage] = useState(1);
   const [content, setContent] = useState([]);
 
   const fetchTrending = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}&page=${page}`
+      `https://api.themoviedb.org/3/trending/all/day?api_key=${TMDB_API_KEY}&page=${page}`
     );
     setContent(data.results);
   };
@@ -25,7 +24,7 @@ const Trending = () => {
     <div>
       <span className="pageTitle">Trending Today</span>
       <div className="trending">
-        {content &&
+        {content && content.length > 0 ? (
           content.map((c) => (
             <SingleContent
               key={c.id}
@@ -36,7 +35,12 @@ const Trending = () => {
               media_type={c.media_type}
               vote_average={c.vote_average}
             />
-          ))}
+          ))
+        ) : (
+          <h2 style={{ textAlign: "center", marginTop: "50px", color: "#fff" }}>
+            No Trending Content Found
+          </h2>
+        )}
       </div>
       <CustomPagination setPage={setPage} />
     </div>

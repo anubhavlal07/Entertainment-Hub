@@ -55,7 +55,6 @@
   /* overflow-y: scroll; */
   padding: 15px 10px;
   border-radius: 15px;
-  box-shadow: inset 0 0 5px #000000;
   text-align: justify;
 }
 
@@ -67,23 +66,28 @@
   .ContentModal__landscape {
     display: none;
   }
+
   .ContentModal__portrait {
     display: flex;
     width: 38%;
   }
+
   .ContentModal {
     flex-direction: row;
     justify-content: space-around;
     padding: 10px 0;
   }
+
   .ContentModal__about {
     width: 58%;
     padding: 0;
     height: 100%;
   }
+
   .ContentModal__title {
     font-size: 3.5vw;
   }
+
   .ContentModal__description {
     font-size: 20px;
   }

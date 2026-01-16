@@ -1,19 +1,18 @@
 import {
   Button,
-  createMuiTheme,
+  createTheme,
   Tab,
   Tabs,
   TextField,
   ThemeProvider,
-} from "@material-ui/core";
+} from "@mui/material";
 import "./Search.css";
-import SearchIcon from "@material-ui/icons/Search";
+import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CustomPagination from "../../components/Pagination/CustomPagination";
 import SingleContent from "../../components/SingleContent/SingleContent";
-
-const apiKey = '0ce524ee34cb6a3d23c4c6c1200883a0';
+import { TMDB_API_KEY } from "../../config/api";
 const Search = () => {
   const [type, setType] = useState(0);
   const [searchText, setSearchText] = useState("");
@@ -21,9 +20,9 @@ const Search = () => {
   const [content, setContent] = useState([]);
   const [numOfPages, setNumOfPages] = useState();
 
-  const darkTheme = createMuiTheme({
+  const darkTheme = createTheme({
     palette: {
-      type: "dark",
+      mode: "dark",
       primary: {
         main: "#fff",
       },
@@ -33,7 +32,7 @@ const Search = () => {
   const fetchSearch = async () => {
     try {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/search/${type ? "tv" : "movie"}?api_key=${apiKey}&language=en-US&query=${searchText}&page=${page}&include_adult=false`
+        `https://api.themoviedb.org/3/search/${type ? "tv" : "movie"}?api_key=${TMDB_API_KEY}&language=en-US&query=${searchText}&page=${page}&include_adult=false`
       );
       setContent(data.results);
       setNumOfPages(data.total_pages);
@@ -95,8 +94,7 @@ const Search = () => {
               vote_average={c.vote_average}
             />
           ))}
-        {searchText &&
-          !content &&
+        {searchText && content.length === 0 &&
           (type ? <h2>No Series Found</h2> : <h2>No Movies Found</h2>)}
       </div>
       {numOfPages > 1 && (

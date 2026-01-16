@@ -4,6 +4,7 @@ import Genres from "../../components/Genres/Genres";
 import SingleContent from "../../components/SingleContent/SingleContent";
 import useGenre from "../../hooks/useGenre";
 import CustomPagination from "../../components/Pagination/CustomPagination";
+import { TMDB_API_KEY } from "../../config/api";
 
 const Movies = () => {
   const [genres, setGenres] = useState([]);
@@ -13,15 +14,14 @@ const Movies = () => {
   const [numOfPages, setNumOfPages] = useState();
   const genreforURL = useGenre(selectedGenres);
   // console.log(selectedGenres);
-const apiKey = '0ce524ee34cb6a3d23c4c6c1200883a0'
 
   const fetchMovies = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genreforURL}`
+      `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genreforURL}`
     );
     setContent(data.results);
     // setNumOfPages(data.total_pages);
-    (data.total_pages>15)?setNumOfPages(15):setNumOfPages(data.total_pages);
+    (data.total_pages > 15) ? setNumOfPages(15) : setNumOfPages(data.total_pages);
     // console.log(data);
   };
 
@@ -42,7 +42,7 @@ const apiKey = '0ce524ee34cb6a3d23c4c6c1200883a0'
         setPage={setPage}
       />
       <div className="trending">
-        {content &&
+        {content && content.length > 0 ? (
           content.map((c) => (
             <SingleContent
               key={c.id}
@@ -53,7 +53,12 @@ const apiKey = '0ce524ee34cb6a3d23c4c6c1200883a0'
               media_type="movie"
               vote_average={c.vote_average}
             />
-          ))}
+          ))
+        ) : (
+          <h2 style={{ textAlign: "center", marginTop: "50px", color: "#fff" }}>
+            No Movies Found
+          </h2>
+        )}
       </div>
       {numOfPages > 1 && (
         <CustomPagination setPage={setPage} numOfPages={numOfPages} />
