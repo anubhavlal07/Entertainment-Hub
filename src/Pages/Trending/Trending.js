@@ -7,12 +7,18 @@ import { TMDB_API_KEY } from "../../config/api";
 const Trending = () => {
   const [page, setPage] = useState(1);
   const [content, setContent] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchTrending = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/trending/all/day?api_key=${TMDB_API_KEY}&page=${page}`
-    );
-    setContent(data.results);
+    try {
+      setIsLoading(true);
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/trending/all/day?api_key=${TMDB_API_KEY}&page=${page}`
+      );
+      setContent(data.results);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -37,9 +43,11 @@ const Trending = () => {
             />
           ))
         ) : (
-          <h2 style={{ textAlign: "center", marginTop: "50px", color: "#fff" }}>
-            No Trending Content Found
-          </h2>
+          !isLoading && (
+            <h2 style={{ textAlign: "center", marginTop: "50px", color: "#fff" }}>
+              No Trending Content Found
+            </h2>
+          )
         )}
       </div>
       <CustomPagination setPage={setPage} />

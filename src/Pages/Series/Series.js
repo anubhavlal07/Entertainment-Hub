@@ -11,16 +11,22 @@ const Series = () => {
   const [page, setPage] = useState(1);
   const [content, setContent] = useState([]);
   const [numOfPages, setNumOfPages] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const genreforURL = useGenre(selectedGenres);
 
   const fetchSeries = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/discover/tv?api_key=${TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genreforURL}`
-    );
-    setContent(data.results);
-    // setNumOfPages(data.total_pages);
-    (data.total_pages > 15) ? setNumOfPages(15) : setNumOfPages(data.total_pages);
-    // console.log(data);
+    try {
+      setIsLoading(true);
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/discover/tv?api_key=${TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genreforURL}`
+      );
+      setContent(data.results);
+      // setNumOfPages(data.total_pages);
+      (data.total_pages > 15) ? setNumOfPages(15) : setNumOfPages(data.total_pages);
+      // console.log(data);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -53,9 +59,11 @@ const Series = () => {
             />
           ))
         ) : (
-          <h2 style={{ textAlign: "center", marginTop: "50px", color: "#fff" }}>
-            No Series Found
-          </h2>
+          !isLoading && (
+            <h2 style={{ textAlign: "center", marginTop: "50px", color: "#fff" }}>
+              No Series Found
+            </h2>
+          )
         )}
       </div>
       {numOfPages > 1 && (

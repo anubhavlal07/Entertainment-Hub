@@ -19,6 +19,7 @@ const Search = () => {
   const [page, setPage] = useState(1);
   const [content, setContent] = useState([]);
   const [numOfPages, setNumOfPages] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const darkTheme = createTheme({
     palette: {
@@ -31,6 +32,7 @@ const Search = () => {
 
   const fetchSearch = async () => {
     try {
+      setIsLoading(true);
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/search/${type ? "tv" : "movie"}?api_key=${TMDB_API_KEY}&language=en-US&query=${searchText}&page=${page}&include_adult=false`
       );
@@ -39,6 +41,8 @@ const Search = () => {
       // console.log(data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -46,6 +50,22 @@ const Search = () => {
     window.scroll(0, 0);
     fetchSearch();
   }, [type, page]);
+  useEffect(() => {
+    if (searchText) {
+      setIsLoading(true);
+    }
+
+    const debounceTimer = setTimeout(() => {
+      if (searchText) {
+        fetchSearch();
+      } else {
+        setIsLoading(false);
+      }
+    }, 500);
+    return () => {
+      clearTimeout(debounceTimer);
+    };
+  }, [searchText]);
 
   return (
     <div>
@@ -94,7 +114,7 @@ const Search = () => {
               vote_average={c.vote_average}
             />
           ))}
-        {searchText && content.length === 0 &&
+        {searchText && !isLoading && content.length === 0 &&
           (type ? <h2>No Series Found</h2> : <h2>No Movies Found</h2>)}
       </div>
       {numOfPages > 1 && (
